@@ -2,7 +2,7 @@ package io.pivotal.pal.tracker;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +22,7 @@ public class EnvController {
 
     }
 
+    @GetMapping("/env")
     public Map<String, String> getEnv() {
         Map<String, String> envMap = new HashMap<>();
 
