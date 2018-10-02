@@ -11,6 +11,6 @@ public interface TimeEntryRepository {
 
     List<TimeEntry> list();
 
-    TimeEntry delete(long l);
+    ResponseEntity<TimeEntry> delete(long l);
     public TimeEntry find(long l);
 }
