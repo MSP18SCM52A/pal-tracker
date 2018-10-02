@@ -19,7 +19,7 @@ public class InMemoryTimeEntryRepositoryTest {
         TimeEntry expected = new TimeEntry(1L, 123L, 456L, LocalDate.parse("2017-01-08"), 8);
         System.out.println("CreatedTime entry --->"+ createdTimeEntry.getId());
         System.out.println("expected entry --->"+ expected.getId());
-        assertThat(createdTimeEntry.getId()).isEqualTo(expected.getId());
+        assertThat(createdTimeEntry).isEqualTo(expected);
 
         TimeEntry readEntry = repo.find(createdTimeEntry.getId());
         assertThat(readEntry).isEqualTo(expected);
