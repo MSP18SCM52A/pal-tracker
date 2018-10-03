@@ -30,16 +30,28 @@ public class InMemoryTimeEntryRepository<T> implements TimeEntryRepository {
     }
     @Override
     public TimeEntry update(long id, TimeEntry timeEntry) {
-        timeEntries.put(id,timeEntry);
-        return timeEntry;
+        TimeEntry updatedTimeEntry = new TimeEntry();
+        if(!(timeEntries.get(id).equals(null))){
+
+            updatedTimeEntry.setId(id);
+            updatedTimeEntry.setProjectId(timeEntry.getId());
+            updatedTimeEntry.setUserId(timeEntry.getProjectId());
+            updatedTimeEntry.setDate(timeEntry.getDate());
+            updatedTimeEntry.setHours(timeEntry.getHours());
+            timeEntries.put(id, updatedTimeEntry);
+        }
+        else{
+            return null;
+        }
+
+        return updatedTimeEntry;
     }
     @Override
-    public ResponseEntity<TimeEntry> delete(long id) {
+    public void delete(long id) {
         timeEntries.remove(id);
-        return null;
     }
     @Override
-    public TimeEntry find(long l) {
-        return timeEntries.get(l);
+    public TimeEntry find(long id) {
+        return timeEntries.get(id);
     }
 }
