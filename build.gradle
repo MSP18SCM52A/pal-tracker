@@ -9,6 +9,7 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+<<<<<<< HEAD
     testCompile("org.springframework.boot:spring-boot-starter-test")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
@@ -32,4 +33,20 @@ test.environment([
         "CF_INSTANCE_INDEX": "20",
         "CF_INSTANCE_ADDR": "123 Dover St",
         "SPRING_DATASOURCE_URL": "jdbc:mysql://localhost:3306/tracker_test?user=tracker&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
+=======
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1")
+
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("mysql:mysql-connector-java:6.0.6")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+bootRun.environment([
+    "WELCOME_MESSAGE": "hello",
+])
+
+test.environment([
+    "WELCOME_MESSAGE": "Hello from test",
+>>>>>>> migration-lab
 ])
