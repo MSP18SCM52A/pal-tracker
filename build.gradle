@@ -1,6 +1,9 @@
+import org.flywaydb.gradle.task.FlywayMigrateTask
+
 plugins {
     id "java"
     id "org.springframework.boot" version "1.5.4.RELEASE"
+    id "org.flywaydb.flyway" version "4.2.0"
 }
 
 repositories {
@@ -9,44 +12,41 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-<<<<<<< HEAD
-    testCompile("org.springframework.boot:spring-boot-starter-test")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
+
     compile("mysql:mysql-connector-java:6.0.6")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
-
+def developmentDbUrl = "jdbc:mysql://localhost:3306/tracker_dev?user=tracker&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
 bootRun.environment([
         "WELCOME_MESSAGE": "hello",
         "PORT": "8080",
         "MEMORY_LIMIT": "1GB",
         "CF_INSTANCE_INDEX": "20",
         "CF_INSTANCE_ADDR": "123 Dover St",
-        "SPRING_DATASOURCE_URL": "jdbc:mysql://localhost:3306/tracker_dev?user=tracker&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
+        "SPRING_DATASOURCE_URL": developmentDbUrl
 ])
 
+def testDbUrl = "jdbc:mysql://localhost:3306/tracker_test?user=tracker&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
 test.environment([
         "WELCOME_MESSAGE": "Hello from test",
         "PORT": "8080",
         "MEMORY_LIMIT": "1GB",
         "CF_INSTANCE_INDEX": "20",
         "CF_INSTANCE_ADDR": "123 Dover St",
-        "SPRING_DATASOURCE_URL": "jdbc:mysql://localhost:3306/tracker_test?user=tracker&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
-=======
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1")
+        "SPRING_DATASOURCE_URL": testDbUrl
+])
 
-    compile("org.springframework.boot:spring-boot-starter-jdbc")
-    compile("mysql:mysql-connector-java:6.0.6")
-
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+flyway {
+    url = developmentDbUrl
+    user = "tracker"
+    password = ""
+    locations = ["filesystem:databases/tracker/migrations"]
 }
 
-bootRun.environment([
-    "WELCOME_MESSAGE": "hello",
-])
-
-test.environment([
-    "WELCOME_MESSAGE": "Hello from test",
->>>>>>> migration-lab
-])
+task testMigrate(type: FlywayMigrateTask) {
+    url = testDbUrl
+}
